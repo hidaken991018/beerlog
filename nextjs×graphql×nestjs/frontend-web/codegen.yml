@@ -1,0 +1,14 @@
+overwrite: true
+schema: "http://127.0.0.1:3020/graphql"
+documents:
+  - "./src/repositories/schema/**/*.graphql"
+generates:
+  ./src/repositories/generated/graphql.tsx:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typed-document-node"
+    config:
+      avoidOptionals:
+        objet: true
+        field: true
