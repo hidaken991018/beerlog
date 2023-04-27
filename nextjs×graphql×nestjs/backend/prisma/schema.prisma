@@ -13,7 +13,11 @@ generator client {
 
 model Post {
   id          String  @id @default(uuid())
-  title       String
-  text        String
+  title     String?
+  thumbnailURL       String?
+  comment        String?
   isPublished Boolean @default(false)
+  likeCount Int?
+  update_date String?
+  create_date String?
 }

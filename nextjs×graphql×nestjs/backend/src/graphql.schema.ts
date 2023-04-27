@@ -9,8 +9,11 @@
 /* eslint-disable */
 
 export class NewPost {
-    title: string;
-    text: string;
+    title?: Nullable<string>;
+    thumbnailURL?: Nullable<string>;
+    comment?: Nullable<string>;
+    isPublished?: Nullable<boolean>;
+    likeCount?: Nullable<number>;
 }
 
 export class UpdatePost {
@@ -22,9 +25,11 @@ export class UpdatePost {
 
 export class Post {
     id: string;
-    title: string;
-    text: string;
-    isPublished: boolean;
+    title?: Nullable<string>;
+    thumbnailURL?: Nullable<string>;
+    comment?: Nullable<string>;
+    isPublished?: Nullable<boolean>;
+    likeCount?: Nullable<number>;
 }
 
 export abstract class IQuery {

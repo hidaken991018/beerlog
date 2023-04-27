@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Post } from '@prisma/client';
-import { NewPost, UpdatePost } from 'src/graphql.schema';
+import { NewPost, UpdatePost, } from 'src/graphql.schema';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable() //Injectable:注入されることができる
