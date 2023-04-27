@@ -1,13 +1,14 @@
 import { gql } from '@apollo/client';
-import { Post } from '../generated/graphql';
 
-export const GET_POST = gql`
-  query Posts{
+export const GET_POSTS = gql`
+  query Posts {
     posts {
       id
       title
-      text
+      thumbnailURL
+      comment
       isPublished
+      likeCount
     }
   }
 `;

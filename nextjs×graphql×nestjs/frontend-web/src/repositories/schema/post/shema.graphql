@@ -1,20 +1,30 @@
 query Posts {
-posts{
-id
-  title
-  text
-  isPublished
-}
+  posts {
+    title
+    thumbnailURL
+    comment
+    isPublished
+    likeCount
+  }
 }
 
-mutation CreatePost($title: String!, $text: String!) {
-  createPost(input:{
-    title:$title
-    text:$text
-  }){
-    id
+mutation CreatePost(
+  $title: String
+  $thumbnailURL: String
+  $comment: String
+  $likeCount: Int
+) {
+  createPost(
+    input: {
+      title: $title
+      thumbnailURL: $thumbnailURL
+      comment: $comment
+      likeCount: $likeCount
+    }
+  ) {
     title
-    text
-    isPublished
+    thumbnailURL
+    comment
+    likeCount
   }
 }
