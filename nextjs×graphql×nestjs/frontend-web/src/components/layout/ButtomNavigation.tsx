@@ -4,14 +4,14 @@ import {
   Box,
   Paper,
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import SportsBarIcon from '@mui/icons-material/SportsBar';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { useRouter } from 'next/router';
 
 export const ButtomNavigation = () => {
-  const [value, setValue] = useState();
+  const [value, setValue] = useState<number>(0);
   const router = useRouter();
 
   const toHome = () => {
@@ -20,6 +20,20 @@ export const ButtomNavigation = () => {
   const toPostPage = () => {
     router.push('/post');
   };
+
+  console.log();
+
+  const navi = [
+    { path: '/', value: 0 },
+    { path: '/post', value: 1 },
+  ];
+  useEffect(() => {
+    navi.forEach((nav) => {
+      if (nav.path === router.asPath) {
+        setValue(nav.value);
+      }
+    });
+  }, [router.asPath]);
   return (
     <Box sx={{ pb: 5 }}>
       <Paper
@@ -30,6 +44,7 @@ export const ButtomNavigation = () => {
           showLabels
           value={value}
           onChange={(event, newValue) => {
+            console.log(newValue);
             setValue(newValue);
           }}
         >

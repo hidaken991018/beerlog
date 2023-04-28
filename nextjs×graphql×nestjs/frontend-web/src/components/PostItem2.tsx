@@ -32,7 +32,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 type Props = {
-  item: Post
+  item: Post;
 };
 
 export default function RecipeReviewCard(props: Props) {
@@ -43,7 +43,7 @@ export default function RecipeReviewCard(props: Props) {
   };
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345 }} className="w-screen">
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe"></Avatar>
@@ -61,6 +61,7 @@ export default function RecipeReviewCard(props: Props) {
         height="194"
         image={props.item.thumbnailURL as string}
         alt="Paella dish"
+        className=""
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
