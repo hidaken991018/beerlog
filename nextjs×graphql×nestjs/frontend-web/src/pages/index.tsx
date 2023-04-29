@@ -1,8 +1,8 @@
-import RecipeReviewCard from '@/components/PostItem2';
 import { Stack } from '@mui/material';
 import { useQuery } from '@apollo/client';
 import { PostsDocument, PostsQuery } from '@/repositories/generated/graphql';
 import React from 'react';
+import { PostCard } from '@/components/PostCard';
 
 const sample: any[] = [];
 for (let i = 0; i < 10; i++) {
@@ -25,7 +25,7 @@ export default function Home() {
         .map((item: any, index) => {
           return (
             <React.Fragment key={index}>
-              <RecipeReviewCard item={item} />
+              <PostCard item={item} />
             </React.Fragment>
           );
         })}
