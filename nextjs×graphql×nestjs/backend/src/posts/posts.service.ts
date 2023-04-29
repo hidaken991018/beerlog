@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { Post } from '@prisma/client';
-import { NewPost, UpdatePost, } from 'src/graphql.schema';
 import { PrismaService } from '../prisma/prisma.service';
+import { BeerPost } from '@prisma/client';
+import { CreateBeerPostInput, UpdateBeerPostInput } from 'src/graphql.schema';
 
 @Injectable() //Injectable:注入されることができる
 export class PostsService {
@@ -13,11 +13,11 @@ export class PostsService {
 
   /**
    *  idが一致するものを返す
-   * @param id 
-   * @returns 
+   * @param id
+   * @returns
    */
-  async findOne(id: string): Promise<Post | null> {
-    return this.prisma.post.findUnique({
+  async findOne(id: number): Promise<BeerPost | null> {
+    return this.prisma.beerPost.findUnique({
       where: {
         id,
       },
@@ -26,48 +26,49 @@ export class PostsService {
 
   /**
    * 全て返す
-   * @returns 
+   * @returns
    */
-  async findAll(): Promise<Post[]> {
-    return this.prisma.post.findMany({});
+  async findAll(): Promise<BeerPost[]> {
+    return this.prisma.beerPost.findMany({});
   }
 
   /**
    * 投稿を作成する
-   * @param input 
-   * @returns 
+   * @param input
+   * @returns
    */
-  async create(input: NewPost): Promise<Post> {
-    return this.prisma.post.create({
+  async create(input: CreateBeerPostInput): Promise<BeerPost> {
+    return this.prisma.beerPost.create({
       data: input,
     });
   }
 
   /**
    * itが一致する投稿を更新する
-   * @param params 
-   * @returns 
+   * @param params
+   * @returns
    */
-  async update(params: UpdatePost): Promise<Post> {
-    const { id, ...params_without_id } = params;
+  async update(params: {
+    id: number;
+    input: UpdateBeerPostInput;
+  }): Promise<BeerPost> {
+    const { id, input } = params;
 
-    return this.prisma.post.update({
+    return this.prisma.beerPost.update({
       where: {
         id,
       },
-      data: {
-        ...params_without_id,
-      },
+      data: input,
     });
   }
 
   /**
    * idが一致する投稿を削除する
-   * @param id 
-   * @returns 
+   * @param id
+   * @returns
    */
-  async delete(id: string): Promise<Post> {
-    return this.prisma.post.delete({
+  async delete(id: number): Promise<BeerPost> {
+    return this.prisma.beerPost.delete({
       where: {
         id,
       },

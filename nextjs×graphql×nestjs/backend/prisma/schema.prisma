@@ -11,13 +11,27 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Post {
-  id          String  @id @default(uuid())
-  title     String?
-  thumbnailURL       String?
-  comment        String?
-  isPublished Boolean @default(false)
-  likeCount Int?
-  update_date String?
-  create_date String?
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  name      String?
+  avatarUrl String?
+  beerPosts BeerPost[]
 }
+
+model BeerPost {
+  id               Int      @id @default(autoincrement())
+  beerName         String
+  brewery          String?
+  style            String?
+  abv              Float?
+  purchaseLocation String?
+  rating           Float
+  comment          String?
+  photoUrl         String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  userId           Int
+  user             User     @relation(fields: [userId], references: [id])
+}
+
