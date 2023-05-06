@@ -2,6 +2,7 @@ type Query {
   users: [User!]!
   user(id: Int!): User
   beerPosts: [BeerPost!]!
+  beerPostsById(id: Int!): BeerPost
   beerPost(id: Int!): BeerPost
 }
 
@@ -20,6 +21,7 @@ type User {
   email: String!
   name: String
   avatarUrl: String
+  beerPosts: [BeerPost]
 }
 
 type BeerPost {
@@ -34,7 +36,7 @@ type BeerPost {
   photoUrl: String
   createdAt: Date!
   updatedAt: Date!
-  user: User!
+  user: User
 }
 
 input CreateUserInput {

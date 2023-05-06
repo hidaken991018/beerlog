@@ -19,7 +19,7 @@ export default function Home() {
 
   return (
     <Stack spacing={2} sx={{ alignItems: 'center' }}>
-      {data?.posts
+      {data?.beerPosts
         ?.slice()
         .reverse()
         .map((item: any, index) => {

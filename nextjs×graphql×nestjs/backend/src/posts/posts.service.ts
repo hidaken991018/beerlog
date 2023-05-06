@@ -1,11 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { BeerPost } from '@prisma/client';
-import { CreateBeerPostInput, UpdateBeerPostInput } from 'src/graphql.schema';
+import {
+  BeerPost,
+  CreateBeerPostInput,
+  UpdateBeerPostInput,
+} from 'src/graphql.schema';
+import { UserService } from 'src/user/user.service';
 
 @Injectable() //Injectable:注入されることができる
 export class PostsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    @Inject(forwardRef(() => UserService))
+    private user: UserService
+  ) {}
 
   /**
    * 以下、サービスが提供するビジネスロジックを定義
@@ -17,11 +25,32 @@ export class PostsService {
    * @returns
    */
   async findOne(id: number): Promise<BeerPost | null> {
-    return this.prisma.beerPost.findUnique({
+    const beerPost = await this.prisma.beerPost.findUnique({
       where: {
         id,
       },
     });
+    const user = await this.user.findOne(beerPost.userId);
+
+    return { ...beerPost, user: user };
+  }
+
+  /**
+   *  idが一致するものを返す
+   * @param id
+   * @returns
+   */
+  async findAllByUserId(userId: number): Promise<BeerPost[] | null> {
+    const beerPosts = await this.prisma.beerPost.findMany({
+      where: { userId },
+    });
+    const beerPostWithUser: BeerPost[] = await Promise.all(
+      beerPosts.map(async (beerPost) => {
+        const user = await this.user.findOne(beerPost.userId);
+        return { ...beerPost, user: user };
+      })
+    );
+    return beerPostWithUser;
   }
 
   /**
@@ -29,7 +58,17 @@ export class PostsService {
    * @returns
    */
   async findAll(): Promise<BeerPost[]> {
-    return this.prisma.beerPost.findMany({});
+    console.log('beerPosts-service-');
+    const beerPosts = await this.prisma.beerPost.findMany({});
+    const beerPostWithUser: BeerPost[] = await Promise.all(
+      beerPosts.map(async (beerPost) => {
+        const user = await this.prisma.user.findUnique({
+          where: { id: beerPost.userId },
+        });
+        return { ...beerPost, user: user };
+      })
+    );
+    return beerPostWithUser;
   }
 
   /**
@@ -38,9 +77,11 @@ export class PostsService {
    * @returns
    */
   async create(input: CreateBeerPostInput): Promise<BeerPost> {
-    return this.prisma.beerPost.create({
+    const beerPost = await this.prisma.beerPost.create({
       data: input,
     });
+    const user = await this.user.findOne(beerPost.userId);
+    return { ...beerPost, user: user };
   }
 
   /**
@@ -53,13 +94,14 @@ export class PostsService {
     input: UpdateBeerPostInput;
   }): Promise<BeerPost> {
     const { id, input } = params;
-
-    return this.prisma.beerPost.update({
+    const beerPost = await this.prisma.beerPost.update({
       where: {
         id,
       },
       data: input,
     });
+    const user = await this.user.findOne(beerPost.userId);
+    return { ...beerPost, user: user };
   }
 
   /**
@@ -68,10 +110,12 @@ export class PostsService {
    * @returns
    */
   async delete(id: number): Promise<BeerPost> {
-    return this.prisma.beerPost.delete({
+    const beerPost = await this.prisma.beerPost.delete({
       where: {
         id,
       },
     });
+    const user = await this.user.findOne(beerPost.userId);
+    return { ...beerPost, user: user };
   }
 }

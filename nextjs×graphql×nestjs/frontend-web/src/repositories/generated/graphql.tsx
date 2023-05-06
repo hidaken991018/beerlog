@@ -11,92 +11,155 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  Date: any;
+};
+
+export type BeerPost = {
+  __typename?: 'BeerPost';
+  abv: Maybe<Scalars['Float']>;
+  beerName: Scalars['String'];
+  brewery: Maybe<Scalars['String']>;
+  comment: Maybe<Scalars['String']>;
+  createdAt: Scalars['Date'];
+  id: Scalars['Int'];
+  photoUrl: Maybe<Scalars['String']>;
+  purchaseLocation: Maybe<Scalars['String']>;
+  rating: Scalars['Float'];
+  style: Maybe<Scalars['String']>;
+  updatedAt: Scalars['Date'];
+  user: User;
+};
+
+export type CreateBeerPostInput = {
+  abv?: InputMaybe<Scalars['Float']>;
+  beerName: Scalars['String'];
+  brewery?: InputMaybe<Scalars['String']>;
+  comment?: InputMaybe<Scalars['String']>;
+  photoUrl?: InputMaybe<Scalars['String']>;
+  purchaseLocation?: InputMaybe<Scalars['String']>;
+  rating: Scalars['Float'];
+  style?: InputMaybe<Scalars['String']>;
+  userId: Scalars['Int'];
+};
+
+export type CreateUserInput = {
+  avatarUrl?: InputMaybe<Scalars['String']>;
+  email: Scalars['String'];
+  name?: InputMaybe<Scalars['String']>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createPost: Post;
-  deletePost: Maybe<Post>;
-  samplepost: Maybe<Scalars['String']>;
-  updatePost: Maybe<Post>;
+  createBeerPost: BeerPost;
+  createUser: User;
+  deleteBeerPost: BeerPost;
+  deleteUser: User;
+  updateBeerPost: BeerPost;
+  updateUser: User;
 };
 
 
-export type MutationCreatePostArgs = {
-  input: NewPost;
+export type MutationCreateBeerPostArgs = {
+  input: CreateBeerPostInput;
 };
 
 
-export type MutationDeletePostArgs = {
-  id: Scalars['ID'];
+export type MutationCreateUserArgs = {
+  input: CreateUserInput;
 };
 
 
-export type MutationSamplepostArgs = {
-  input: Scalars['String'];
+export type MutationDeleteBeerPostArgs = {
+  id: Scalars['Int'];
 };
 
 
-export type MutationUpdatePostArgs = {
-  input: UpdatePost;
+export type MutationDeleteUserArgs = {
+  id: Scalars['Int'];
 };
 
-export type NewPost = {
-  comment?: InputMaybe<Scalars['String']>;
-  isPublished?: InputMaybe<Scalars['Boolean']>;
-  likeCount?: InputMaybe<Scalars['Int']>;
-  thumbnailURL?: InputMaybe<Scalars['String']>;
-  title?: InputMaybe<Scalars['String']>;
+
+export type MutationUpdateBeerPostArgs = {
+  id: Scalars['Int'];
+  input: UpdateBeerPostInput;
 };
 
-export type Post = {
-  __typename?: 'Post';
-  comment: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  isPublished: Maybe<Scalars['Boolean']>;
-  likeCount: Maybe<Scalars['Int']>;
-  thumbnailURL: Maybe<Scalars['String']>;
-  title: Maybe<Scalars['String']>;
+
+export type MutationUpdateUserArgs = {
+  id: Scalars['Int'];
+  input: UpdateUserInput;
 };
 
 export type Query = {
   __typename?: 'Query';
-  post: Maybe<Post>;
-  posts: Array<Post>;
+  beerPost: Maybe<BeerPost>;
+  beerPosts: Array<BeerPost>;
+  beerPostsById: Maybe<BeerPost>;
+  user: Maybe<User>;
+  users: Array<User>;
 };
 
 
-export type QueryPostArgs = {
-  id: Scalars['ID'];
+export type QueryBeerPostArgs = {
+  id: Scalars['Int'];
 };
 
-export type Subscription = {
-  __typename?: 'Subscription';
-  postCreated: Maybe<Post>;
+
+export type QueryBeerPostsByIdArgs = {
+  id: Scalars['Int'];
 };
 
-export type UpdatePost = {
-  id: Scalars['ID'];
-  isPublished?: InputMaybe<Scalars['Boolean']>;
-  text?: InputMaybe<Scalars['String']>;
-  title?: InputMaybe<Scalars['String']>;
+
+export type QueryUserArgs = {
+  id: Scalars['Int'];
+};
+
+export type UpdateBeerPostInput = {
+  abv?: InputMaybe<Scalars['Float']>;
+  beerName?: InputMaybe<Scalars['String']>;
+  brewery?: InputMaybe<Scalars['String']>;
+  comment?: InputMaybe<Scalars['String']>;
+  photoUrl?: InputMaybe<Scalars['String']>;
+  purchaseLocation?: InputMaybe<Scalars['String']>;
+  rating?: InputMaybe<Scalars['Float']>;
+  style?: InputMaybe<Scalars['String']>;
+};
+
+export type UpdateUserInput = {
+  avatarUrl?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+export type User = {
+  __typename?: 'User';
+  avatarUrl: Maybe<Scalars['String']>;
+  beerPosts: Array<Maybe<BeerPost>>;
+  email: Scalars['String'];
+  id: Scalars['Int'];
+  name: Maybe<Scalars['String']>;
 };
 
 export type PostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', title: string | null, thumbnailURL: string | null, comment: string | null, isPublished: boolean | null, likeCount: number | null }> };
+export type PostsQuery = { __typename?: 'Query', beerPosts: Array<{ __typename?: 'BeerPost', id: number, beerName: string, brewery: string | null, style: string | null, abv: number | null, purchaseLocation: string | null, rating: number, comment: string | null, photoUrl: string | null, createdAt: any, updatedAt: any }> };
 
 export type CreatePostMutationVariables = Exact<{
-  title?: InputMaybe<Scalars['String']>;
-  thumbnailURL?: InputMaybe<Scalars['String']>;
+  beerName: Scalars['String'];
+  brewery?: InputMaybe<Scalars['String']>;
+  style?: InputMaybe<Scalars['String']>;
+  abv?: InputMaybe<Scalars['Float']>;
+  purchaseLocation?: InputMaybe<Scalars['String']>;
+  rating: Scalars['Float'];
   comment?: InputMaybe<Scalars['String']>;
-  likeCount?: InputMaybe<Scalars['Int']>;
+  photoUrl?: InputMaybe<Scalars['String']>;
+  userId: Scalars['Int'];
 }>;
 
 
-export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', title: string | null, thumbnailURL: string | null, comment: string | null, likeCount: number | null } };
+export type CreatePostMutation = { __typename?: 'Mutation', createBeerPost: { __typename?: 'BeerPost', id: number, beerName: string, brewery: string | null, style: string | null, abv: number | null, purchaseLocation: string | null, rating: number, comment: string | null, photoUrl: string | null, createdAt: any, updatedAt: any } };
 
 
-export const PostsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Posts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"posts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnailURL"}},{"kind":"Field","name":{"kind":"Name","value":"comment"}},{"kind":"Field","name":{"kind":"Name","value":"isPublished"}},{"kind":"Field","name":{"kind":"Name","value":"likeCount"}}]}}]}}]} as unknown as DocumentNode<PostsQuery, PostsQueryVariables>;
-export const CreatePostDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreatePost"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"title"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"thumbnailURL"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"comment"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"likeCount"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createPost"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"title"},"value":{"kind":"Variable","name":{"kind":"Name","value":"title"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"thumbnailURL"},"value":{"kind":"Variable","name":{"kind":"Name","value":"thumbnailURL"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"comment"},"value":{"kind":"Variable","name":{"kind":"Name","value":"comment"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"likeCount"},"value":{"kind":"Variable","name":{"kind":"Name","value":"likeCount"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnailURL"}},{"kind":"Field","name":{"kind":"Name","value":"comment"}},{"kind":"Field","name":{"kind":"Name","value":"likeCount"}}]}}]}}]} as unknown as DocumentNode<CreatePostMutation, CreatePostMutationVariables>;
+export const PostsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Posts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"beerPosts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"beerName"}},{"kind":"Field","name":{"kind":"Name","value":"brewery"}},{"kind":"Field","name":{"kind":"Name","value":"style"}},{"kind":"Field","name":{"kind":"Name","value":"abv"}},{"kind":"Field","name":{"kind":"Name","value":"purchaseLocation"}},{"kind":"Field","name":{"kind":"Name","value":"rating"}},{"kind":"Field","name":{"kind":"Name","value":"comment"}},{"kind":"Field","name":{"kind":"Name","value":"photoUrl"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<PostsQuery, PostsQueryVariables>;
+export const CreatePostDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreatePost"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"beerName"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"brewery"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"style"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"abv"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"purchaseLocation"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"rating"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"comment"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"photoUrl"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createBeerPost"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"beerName"},"value":{"kind":"Variable","name":{"kind":"Name","value":"beerName"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"brewery"},"value":{"kind":"Variable","name":{"kind":"Name","value":"brewery"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"style"},"value":{"kind":"Variable","name":{"kind":"Name","value":"style"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"abv"},"value":{"kind":"Variable","name":{"kind":"Name","value":"abv"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"purchaseLocation"},"value":{"kind":"Variable","name":{"kind":"Name","value":"purchaseLocation"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"rating"},"value":{"kind":"Variable","name":{"kind":"Name","value":"rating"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"comment"},"value":{"kind":"Variable","name":{"kind":"Name","value":"comment"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"photoUrl"},"value":{"kind":"Variable","name":{"kind":"Name","value":"photoUrl"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"userId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"beerName"}},{"kind":"Field","name":{"kind":"Name","value":"brewery"}},{"kind":"Field","name":{"kind":"Name","value":"style"}},{"kind":"Field","name":{"kind":"Name","value":"abv"}},{"kind":"Field","name":{"kind":"Name","value":"purchaseLocation"}},{"kind":"Field","name":{"kind":"Name","value":"rating"}},{"kind":"Field","name":{"kind":"Name","value":"comment"}},{"kind":"Field","name":{"kind":"Name","value":"photoUrl"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<CreatePostMutation, CreatePostMutationVariables>;

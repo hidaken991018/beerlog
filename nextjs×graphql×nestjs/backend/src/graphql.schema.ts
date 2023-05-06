@@ -50,6 +50,8 @@ export abstract class IQuery {
 
     abstract beerPosts(): BeerPost[] | Promise<BeerPost[]>;
 
+    abstract beerPostsById(id: number): Nullable<BeerPost> | Promise<Nullable<BeerPost>>;
+
     abstract beerPost(id: number): Nullable<BeerPost> | Promise<Nullable<BeerPost>>;
 }
 
@@ -72,6 +74,7 @@ export class User {
     email: string;
     name?: Nullable<string>;
     avatarUrl?: Nullable<string>;
+    beerPosts?: Nullable<Nullable<BeerPost>[]>;
 }
 
 export class BeerPost {
@@ -86,7 +89,7 @@ export class BeerPost {
     photoUrl?: Nullable<string>;
     createdAt: Date;
     updatedAt: Date;
-    user: User;
+    user?: Nullable<User>;
 }
 
 type Nullable<T> = T | null;

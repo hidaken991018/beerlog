@@ -1,29 +1,43 @@
-import { Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
-import { CreateUserInput, UpdateUserInput } from 'src/graphql.schema';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
+import { CreateUserInput, UpdateUserInput, User } from 'src/graphql.schema';
+import { PostsService } from 'src/posts/posts.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable() //Injectable:注入されることができる
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    @Inject(forwardRef(() => PostsService))
+    private posts: PostsService
+  ) {}
   /**
    *  idが一致するものを返す
    * @param id
    * @returns
    */
   async findOne(id: number): Promise<User | null> {
-    return this.prisma.user.findUnique({
+    console.log('user-findOne');
+    const user = await this.prisma.user.findUnique({
       where: {
         id,
       },
     });
+    console.log('user-findOne', user);
+    return this.convertUserWithBeerPosts(user);
   }
   /**
    * 全て返す
    * @returns
    */
   async findAll(): Promise<User[]> {
-    return this.prisma.user.findMany({});
+    const users = await this.prisma.user.findMany({});
+    const usersWithBeerPosts = Promise.all(
+      users.map(async (user) => {
+        return this.convertUserWithBeerPosts(user);
+      })
+    );
+
+    return usersWithBeerPosts;
   }
 
   /**
@@ -32,9 +46,10 @@ export class UserService {
    * @returns
    */
   async create(input: CreateUserInput): Promise<User> {
-    return this.prisma.user.create({
+    const user = await this.prisma.user.create({
       data: input,
     });
+    return this.convertUserWithBeerPosts(user);
   }
 
   /**
@@ -44,13 +59,14 @@ export class UserService {
    */
   async update(params: { id: number; input: UpdateUserInput }): Promise<User> {
     const { id, input } = params;
-
-    return this.prisma.user.update({
+    const user = await this.prisma.user.update({
       where: {
         id,
       },
       data: input,
     });
+
+    return this.convertUserWithBeerPosts(user);
   }
 
   /**
@@ -59,10 +75,23 @@ export class UserService {
    * @returns
    */
   async delete(id: number): Promise<User> {
-    return this.prisma.user.delete({
+    const user = this.prisma.user.delete({
       where: {
         id,
       },
     });
+    return this.convertUserWithBeerPosts(user);
+  }
+
+  /**
+   * データベースのUserをレスポンスのUserに変換する。
+   * @param user
+   * @returns
+   */
+  async convertUserWithBeerPosts(user: any): Promise<User> {
+    const beerPosts = await this.posts.findAllByUserId(user.id);
+    const userWithBeerPosts: User = { ...user, beerPosts: beerPosts };
+    console.log('convertUserWithBeerPosts', userWithBeerPosts);
+    return userWithBeerPosts;
   }
 }
