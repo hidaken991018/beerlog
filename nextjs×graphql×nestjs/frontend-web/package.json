@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.12",
+    "@auth0/auth0-react": "^2.1.0",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@graphql-codegen/cli": "^3.3.0",

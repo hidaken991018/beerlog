@@ -8,6 +8,7 @@ import { ApolloProvider } from '@apollo/client';
 import type { AppProps } from 'next/app';
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material';
+import { Auth0Provider } from '@auth0/auth0-react';
 
 export default function App({ Component, pageProps }: AppProps) {
   const theme = createTheme({
@@ -17,13 +18,22 @@ export default function App({ Component, pageProps }: AppProps) {
       },
     },
   });
+  console.log(process.env.NEXT_PUBLIC_BASE_URL);
   return (
     <ApolloProvider client={client}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <Auth0Provider
+          domain={process.env.NEXT_PUBLIC_AUTH0_DOMAIN as string}
+          clientId={process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID as string}
+          authorizationParams={{
+            redirect_uri: process.env.NEXT_PUBLIC_BASE_URL as string,
+          }}
+        >
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </Auth0Provider>
       </ThemeProvider>
 
       {/* <ButtomNavigation /> */}
