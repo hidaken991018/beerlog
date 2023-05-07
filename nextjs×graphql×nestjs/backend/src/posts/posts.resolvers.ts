@@ -5,7 +5,6 @@ import {
   CreateBeerPostInput,
   UpdateBeerPostInput,
 } from 'src/graphql.schema';
-import { PubSub } from 'graphql-subscriptions';
 
 // https://qiita.com/yoshii0110/items/3d9ec03215537646b65c#graphql%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8Bsubscription%E5%87%A6%E7%90%86
 // const pubSub = new PubSub();

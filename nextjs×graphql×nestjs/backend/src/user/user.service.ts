@@ -1,4 +1,5 @@
 import { Inject, Injectable, forwardRef } from '@nestjs/common';
+import { GraphQLError } from 'graphql';
 import { CreateUserInput, UpdateUserInput, User } from 'src/graphql.schema';
 import { PostsService } from 'src/posts/posts.service';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -46,9 +47,15 @@ export class UserService {
    * @returns
    */
   async create(input: CreateUserInput): Promise<User> {
-    const user = await this.prisma.user.create({
-      data: input,
-    });
+    const user = await this.prisma.user
+      .create({
+        data: input,
+      })
+      .catch((e) => {
+        throw new GraphQLError('orm_error', {
+          extensions: { code: `USER${e.code}` },
+        });
+      });
     return this.convertUserWithBeerPosts(user);
   }
 
@@ -88,10 +95,13 @@ export class UserService {
    * @param user
    * @returns
    */
-  async convertUserWithBeerPosts(user: any): Promise<User> {
-    const beerPosts = await this.posts.findAllByUserId(user.id);
+  private async convertUserWithBeerPosts(user: any): Promise<User> {
+    console.log('convertUserWithBeerPosts', user);
+    const beerPosts = await this.prisma.beerPost.findMany({
+      where: { userId: user.id },
+    });
+
     const userWithBeerPosts: User = { ...user, beerPosts: beerPosts };
-    console.log('convertUserWithBeerPosts', userWithBeerPosts);
     return userWithBeerPosts;
   }
 }

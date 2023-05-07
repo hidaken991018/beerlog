@@ -30,9 +30,8 @@ export class PostsService {
         id,
       },
     });
-    const user = await this.user.findOne(beerPost.userId);
 
-    return { ...beerPost, user: user };
+    return await this.adaptUser(beerPost);
   }
 
   /**
@@ -46,8 +45,7 @@ export class PostsService {
     });
     const beerPostWithUser: BeerPost[] = await Promise.all(
       beerPosts.map(async (beerPost) => {
-        const user = await this.user.findOne(beerPost.userId);
-        return { ...beerPost, user: user };
+        return await this.adaptUser(beerPost);
       })
     );
     return beerPostWithUser;
@@ -58,16 +56,13 @@ export class PostsService {
    * @returns
    */
   async findAll(): Promise<BeerPost[]> {
-    console.log('beerPosts-service-');
     const beerPosts = await this.prisma.beerPost.findMany({});
     const beerPostWithUser: BeerPost[] = await Promise.all(
       beerPosts.map(async (beerPost) => {
-        const user = await this.prisma.user.findUnique({
-          where: { id: beerPost.userId },
-        });
-        return { ...beerPost, user: user };
+        return await this.adaptUser(beerPost);
       })
     );
+
     return beerPostWithUser;
   }
 
@@ -80,8 +75,7 @@ export class PostsService {
     const beerPost = await this.prisma.beerPost.create({
       data: input,
     });
-    const user = await this.user.findOne(beerPost.userId);
-    return { ...beerPost, user: user };
+    return await this.adaptUser(beerPost);
   }
 
   /**
@@ -100,8 +94,7 @@ export class PostsService {
       },
       data: input,
     });
-    const user = await this.user.findOne(beerPost.userId);
-    return { ...beerPost, user: user };
+    return await this.adaptUser(beerPost);
   }
 
   /**
@@ -115,7 +108,20 @@ export class PostsService {
         id,
       },
     });
-    const user = await this.user.findOne(beerPost.userId);
-    return { ...beerPost, user: user };
+    return await this.adaptUser(beerPost);
+  }
+
+  /**
+   * データベースのBeerPostをレスポンスのBeerPostに変換する。
+   * @param user
+   * @returns
+   */
+  private async adaptUser(beerPost: any): Promise<BeerPost> {
+    const user = await this.prisma.user.findUnique({
+      where: { id: beerPost.userId },
+    });
+
+    const beerPostWithUser: BeerPost = { ...beerPost, user: user };
+    return beerPostWithUser;
   }
 }
