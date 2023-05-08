@@ -20,9 +20,6 @@ export const ButtomNavigation = () => {
   const toPostPage = () => {
     router.push('/post');
   };
-
-  console.log();
-
   const navi = [
     { path: '/', value: 0 },
     { path: '/post', value: 1 },
@@ -44,7 +41,6 @@ export const ButtomNavigation = () => {
           showLabels
           value={value}
           onChange={(event, newValue) => {
-            console.log(newValue);
             setValue(newValue);
           }}
         >

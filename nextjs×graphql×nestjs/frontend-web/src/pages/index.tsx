@@ -15,7 +15,6 @@ for (let i = 0; i < 10; i++) {
  */
 export default function Home() {
   const { data, loading, error } = useQuery<PostsQuery>(PostsDocument);
-  console.log(data);
 
   return (
     <Stack spacing={2} sx={{ alignItems: 'center' }}>

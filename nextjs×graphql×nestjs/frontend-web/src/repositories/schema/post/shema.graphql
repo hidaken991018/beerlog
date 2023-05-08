@@ -14,6 +14,15 @@ query Posts {
   }
 }
 
+mutation CreateUser($input: CreateUserInput!) {
+  createUser(input: $input) {
+    id
+    email
+    name
+    avatarUrl
+  }
+}
+
 mutation CreatePost(
   $beerName: String!
   $brewery: String
@@ -50,4 +59,18 @@ mutation CreatePost(
     createdAt
     updatedAt
   }
+}
+
+type User {
+  id: Int!
+  email: String!
+  name: String
+  avatarUrl: String
+  beerPosts: [BeerPost]
+}
+
+input CreateUserInput {
+  email: String!
+  name: String
+  avatarUrl: String
 }

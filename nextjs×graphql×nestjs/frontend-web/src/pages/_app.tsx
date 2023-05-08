@@ -1,4 +1,3 @@
-import ButtonAppBar from '@/components/layout/AppBar';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ButtomNavigation } from '@/components/layout/ButtomNavigation';
 import Layout from '@/components/layout/Layout';
@@ -18,7 +17,6 @@ export default function App({ Component, pageProps }: AppProps) {
       },
     },
   });
-  console.log(process.env.NEXT_PUBLIC_BASE_URL);
   return (
     <ApolloProvider client={client}>
       <ThemeProvider theme={theme}>
@@ -35,8 +33,6 @@ export default function App({ Component, pageProps }: AppProps) {
           </Layout>
         </Auth0Provider>
       </ThemeProvider>
-
-      {/* <ButtomNavigation /> */}
     </ApolloProvider>
   );
 }

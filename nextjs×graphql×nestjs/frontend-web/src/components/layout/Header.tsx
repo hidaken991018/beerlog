@@ -6,8 +6,13 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import { useAuth0 } from '@auth0/auth0-react';
 
-export default function ButtonAppBar() {
+export function Header() {
+  const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
+
+  // ユーザを作成していなければ作成し、作成済みであればそのまま続行
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -24,7 +29,15 @@ export default function ButtonAppBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             News
           </Typography>
-          {/* <Button color="inherit">Login</Button> */}
+          {isAuthenticated ? (
+            <Button color="inherit" onClick={() => logout()}>
+              Logout
+            </Button>
+          ) : (
+            <Button color="inherit" onClick={() => loginWithRedirect()}>
+              Login
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
     </Box>

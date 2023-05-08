@@ -86,7 +86,7 @@ export default function PostForm() {
               type="file"
               {...register('thumbnailURL', { required: true })}
               onChange={(e) => {
-                //なぜこれでできるのかは不明だが。。
+                //なぜこれでできるのかは不明だが。。。
                 //https://zenn.dev/hiro__dev/scraps/000b8a89053356
                 register('thumbnailURL').onChange(e);
                 uploadToClient(e);

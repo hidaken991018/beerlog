@@ -1,5 +1,5 @@
 import { Container } from '@mui/material';
-import ButtonAppBar from './AppBar';
+import { Header } from './Header';
 import { ButtomNavigation } from './ButtomNavigation';
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
 const Layout = (props: Props) => {
   return (
     <>
-      <ButtonAppBar />
+      <Header />
       <Container sx={{ p: 2 }}>{props.children}</Container>
       <ButtomNavigation />
     </>
