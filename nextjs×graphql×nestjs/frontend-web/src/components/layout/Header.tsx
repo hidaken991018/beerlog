@@ -7,9 +7,10 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useEffect } from 'react';
 
 export function Header() {
-  const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
+  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
 
   // ユーザを作成していなければ作成し、作成済みであればそのまま続行
 

@@ -14,7 +14,7 @@ query Posts {
   }
 }
 
-mutation CreateUser($input: CreateUserInput!) {
+mutation Login($input: CreateUserInput!) {
   createUser(input: $input) {
     id
     email
