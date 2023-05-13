@@ -1,10 +1,12 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql';
 import { PostsService } from './posts.service';
 import {
   BeerPost,
   CreateBeerPostInput,
   UpdateBeerPostInput,
 } from 'src/graphql.schema';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 // https://qiita.com/yoshii0110/items/3d9ec03215537646b65c#graphql%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8Bsubscription%E5%87%A6%E7%90%86
 // const pubSub = new PubSub();
@@ -36,7 +38,12 @@ export class PostsResolvers {
   }
 
   @Mutation('createBeerPost')
-  async create(@Args('input') args: CreateBeerPostInput): Promise<BeerPost> {
+  @UseGuards(AuthGuard)
+  async create(
+    @Args('input') args: CreateBeerPostInput,
+    @Context() context: any
+  ): Promise<BeerPost> {
+    console.log(context);
     return this.postService.create(args);
   }
 
