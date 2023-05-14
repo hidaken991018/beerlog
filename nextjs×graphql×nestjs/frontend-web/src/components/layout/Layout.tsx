@@ -9,31 +9,6 @@ type Props = {
   children: React.ReactNode;
 };
 const Layout = (props: Props) => {
-  const { isAuthenticated, user } = useAuth0();
-  const [loginMutation, loginResult] =
-    useMutation<LoginMutation>(LoginDocument);
-
-  /**
-   * ログインをする（ユーザがいなければ作成する）
-   * @param user
-   */
-  const login = async (user: User | undefined) => {
-    if (user === undefined) return;
-    await loginMutation({
-      variables: {
-        input: {
-          // id: user.sub,
-          email: user.email,
-          name: user.name,
-          avatarUrl: user.picture,
-        },
-      },
-    });
-  };
-  // Auth0ログイン済み,バック未ログイン
-  if (isAuthenticated && !loginResult.called) {
-    login(user);
-  }
   return (
     <>
       <Header />

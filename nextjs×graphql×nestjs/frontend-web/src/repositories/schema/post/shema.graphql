@@ -14,8 +14,8 @@ query Posts {
   }
 }
 
-mutation Login($input: CreateUserInput!) {
-  createUser(input: $input) {
+mutation Login($input: LoginUserInput!) {
+  loginUser(input: $input) {
     id
     email
     name
@@ -32,7 +32,7 @@ mutation CreatePost(
   $rating: Float!
   $comment: String
   $photoUrl: String
-  $userId: Int!
+  $userId: String!
 ) {
   createBeerPost(
     input: {
@@ -62,14 +62,14 @@ mutation CreatePost(
 }
 
 type User {
-  id: Int!
+  id: String!
   email: String!
   name: String
   avatarUrl: String
   beerPosts: [BeerPost]
 }
 
-input CreateUserInput {
+input LoginUserInput {
   email: String!
   name: String
   avatarUrl: String
