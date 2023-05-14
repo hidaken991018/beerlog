@@ -7,7 +7,8 @@ type Query {
 }
 
 type Mutation {
-  createUser(input: CreateUserInput!): User!
+  # createUser(input: CreateUserInput!): User!
+  loginUser(input: LoginUserInput!): User!
   updateUser(id: Int!, input: UpdateUserInput!): User!
   deleteUser(id: Int!): User!
 
@@ -17,7 +18,7 @@ type Mutation {
 }
 
 type User {
-  id: Int!
+  id: String!
   email: String!
   name: String
   avatarUrl: String
@@ -45,6 +46,12 @@ input CreateUserInput {
   avatarUrl: String
 }
 
+input LoginUserInput {
+  email: String!
+  name: String
+  avatarUrl: String
+}
+
 input UpdateUserInput {
   email: String
   name: String
@@ -60,7 +67,7 @@ input CreateBeerPostInput {
   rating: Float!
   comment: String
   photoUrl: String
-  userId: Int!
+  userId: String!
 }
 
 input UpdateBeerPostInput {

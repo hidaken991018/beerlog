@@ -14,6 +14,12 @@ export class CreateUserInput {
     avatarUrl?: Nullable<string>;
 }
 
+export class LoginUserInput {
+    email: string;
+    name?: Nullable<string>;
+    avatarUrl?: Nullable<string>;
+}
+
 export class UpdateUserInput {
     email?: Nullable<string>;
     name?: Nullable<string>;
@@ -29,7 +35,7 @@ export class CreateBeerPostInput {
     rating: number;
     comment?: Nullable<string>;
     photoUrl?: Nullable<string>;
-    userId: number;
+    userId: string;
 }
 
 export class UpdateBeerPostInput {
@@ -56,7 +62,7 @@ export abstract class IQuery {
 }
 
 export abstract class IMutation {
-    abstract createUser(input: CreateUserInput): User | Promise<User>;
+    abstract loginUser(input: LoginUserInput): User | Promise<User>;
 
     abstract updateUser(id: number, input: UpdateUserInput): User | Promise<User>;
 
@@ -70,7 +76,7 @@ export abstract class IMutation {
 }
 
 export class User {
-    id: number;
+    id: string;
     email: string;
     name?: Nullable<string>;
     avatarUrl?: Nullable<string>;

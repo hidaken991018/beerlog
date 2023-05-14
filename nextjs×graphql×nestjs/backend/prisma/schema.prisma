@@ -12,7 +12,7 @@ generator client {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
+  id        String       @id @default(cuid())
   email     String    @unique
   name      String?
   avatarUrl String?
@@ -31,7 +31,7 @@ model BeerPost {
   photoUrl         String?
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
-  userId           Int
+  userId           String
   user             User     @relation(fields: [userId], references: [id])
 }
 

@@ -35,11 +35,11 @@ export class PostsService {
   }
 
   /**
-   *  idが一致するものを返す
+   *  UserIdが一致するものを返す
    * @param id
    * @returns
    */
-  async findAllByUserId(userId: number): Promise<BeerPost[] | null> {
+  async findAllByUserId(userId: string): Promise<BeerPost[] | null> {
     const beerPosts = await this.prisma.beerPost.findMany({
       where: { userId },
     });

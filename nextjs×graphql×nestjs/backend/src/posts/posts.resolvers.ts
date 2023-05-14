@@ -33,7 +33,7 @@ export class PostsResolvers {
   }
 
   @Query('beerPostsById') // schema.graphqlに記載のもの
-  async postsById(@Args('id') args: number): Promise<BeerPost[]> {
+  async postsById(@Args('id') args: string): Promise<BeerPost[]> {
     return this.postService.findAllByUserId(args);
   }
 

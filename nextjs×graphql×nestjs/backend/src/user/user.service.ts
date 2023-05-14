@@ -1,6 +1,11 @@
 import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { GraphQLError } from 'graphql';
-import { CreateUserInput, UpdateUserInput, User } from 'src/graphql.schema';
+import {
+  CreateUserInput,
+  LoginUserInput,
+  UpdateUserInput,
+  User,
+} from 'src/graphql.schema';
 import { PostsService } from 'src/posts/posts.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -16,7 +21,7 @@ export class UserService {
    * @param id
    * @returns
    */
-  async findOne(id: number): Promise<User | null> {
+  async findOne(id: string): Promise<User | null> {
     console.log('user-findOne');
     const user = await this.prisma.user.findUnique({
       where: {
@@ -46,25 +51,24 @@ export class UserService {
    * @param input
    * @returns
    */
-  async create(input: CreateUserInput): Promise<User> {
-    const user = await this.prisma.user
-      .create({
-        data: input,
-      })
-      .catch((e) => {
-        throw new GraphQLError('orm_error', {
-          extensions: { code: `USER${e.code}` },
-        });
-      });
+  async create(input: LoginUserInput): Promise<User> {
+    const user = await this.prisma.user.create({
+      data: input,
+    });
+    // .catch((e) => {
+    //   throw new GraphQLError('orm_error', {
+    //     extensions: { code: `USER${e.code}` },
+    //   });
+    // });
     return this.convertUserWithBeerPosts(user);
   }
 
   /**
-   * itが一致するユーザ情報を更新する
+   * idが一致するユーザ情報を更新する
    * @param params
    * @returns
    */
-  async update(params: { id: number; input: UpdateUserInput }): Promise<User> {
+  async update(params: { id: string; input: UpdateUserInput }): Promise<User> {
     const { id, input } = params;
     const user = await this.prisma.user.update({
       where: {
@@ -77,17 +81,40 @@ export class UserService {
   }
 
   /**
+   * emailが一致するユーザ情報を検索する
+   * @param params
+   * @returns
+   */
+  async seachByEmail(email: string): Promise<User> {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+
+    return this.convertUserWithBeerPosts(user);
+  }
+
+  /**
    * idが一致するユーザを削除する
    * @param id
    * @returns
    */
-  async delete(id: number): Promise<User> {
+  async delete(id: string): Promise<User> {
     const user = this.prisma.user.delete({
       where: {
         id,
       },
     });
     return this.convertUserWithBeerPosts(user);
+  }
+
+  async login(loginInput: LoginUserInput): Promise<User> {
+    const loginUser = this.seachByEmail(loginInput.email);
+
+    if (loginUser !== null) return loginUser;
+    const createUser = await this.create(loginInput);
+    return createUser;
   }
 
   /**
