@@ -10,6 +10,7 @@ import { createTheme } from '@mui/material';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { RecoilRoot } from 'recoil';
 import { Auth } from '@/components/auth/Auth';
+import { GlobalState } from '@/components/GlobalState';
 
 export default function App({ Component, pageProps }: AppProps) {
   const theme = createTheme({
@@ -31,11 +32,13 @@ export default function App({ Component, pageProps }: AppProps) {
               redirect_uri: process.env.NEXT_PUBLIC_BASE_URL as string,
             }}
           >
-            <Layout>
-              <Auth>
-                <Component {...pageProps} />
-              </Auth>
-            </Layout>
+            <GlobalState>
+              <Layout>
+                <Auth>
+                  <Component {...pageProps} />
+                </Auth>
+              </Layout>
+            </GlobalState>
           </Auth0Provider>
         </ThemeProvider>
       </ApolloProvider>

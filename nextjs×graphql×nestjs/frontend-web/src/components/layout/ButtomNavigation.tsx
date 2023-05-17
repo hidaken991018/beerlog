@@ -5,27 +5,24 @@ import {
   Paper,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import SportsBarIcon from '@mui/icons-material/SportsBar';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { useRouter } from 'next/router';
+import { NAVIGATION, PAHT } from '@/constants/path';
 
 export const ButtomNavigation = () => {
   const [value, setValue] = useState<number>(0);
   const router = useRouter();
 
   const toHome = () => {
-    router.push('/');
+    router.push(PAHT.HOME);
   };
   const toPostPage = () => {
-    router.push('/post');
+    router.push(PAHT.POST);
   };
-  const navi = [
-    { path: '/', value: 0 },
-    { path: '/post', value: 1 },
-  ];
+
   useEffect(() => {
-    navi.forEach((nav) => {
+    NAVIGATION.PATH.forEach((nav) => {
       if (nav.path === router.asPath) {
         setValue(nav.value);
       }

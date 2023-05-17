@@ -1,6 +1,14 @@
 import { LoginMutation } from '@/repositories/generated/graphql';
-import { atom } from 'recoil';
-export const loginUserInfoState = atom<LoginMutation>({
-  key: 'loginUserInfoState', // unique ID (with respect to other atoms/selectors)
-  default: undefined, // default value (aka initial value)
+import { atom, selector } from 'recoil';
+export const clientloginState = atom<boolean>({
+  key: 'clientloginState',
+  default: false,
+});
+
+/**
+ * ログインユーザの状態管理
+ */
+export const loginUserInfoState = atom<LoginMutation | undefined | null>({
+  key: 'loginUserInfoState',
+  default: undefined,
 });

@@ -4,13 +4,17 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import { useAuth0 } from '@auth0/auth0-react';
-import { useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
+import { clientloginState } from '@/globalstates/userInfo/userInfo';
 
+/**
+ * ヘッダー
+ * @returns
+ */
 export function Header() {
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+  const isLogin = useRecoilValue(clientloginState);
 
   // ユーザを作成していなければ作成し、作成済みであればそのまま続行
 
@@ -30,7 +34,7 @@ export function Header() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             News
           </Typography>
-          {isAuthenticated ? (
+          {isLogin ? (
             <Button color="inherit" onClick={() => logout()}>
               Logout
             </Button>
