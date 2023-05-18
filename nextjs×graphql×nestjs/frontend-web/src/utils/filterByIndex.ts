@@ -4,7 +4,7 @@
  * @param filterCount
  * @returns
  */
-const filterByIndex = (array: Array<any>, filterCount: number) => {
+export const filterByIndex = (array: Array<any>, filterCount: number) => {
   const newValue = array.filter((_, index) => {
     if (index <= filterCount - 1) {
       return true;
