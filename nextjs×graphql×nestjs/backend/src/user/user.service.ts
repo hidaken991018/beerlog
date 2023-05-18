@@ -1,11 +1,6 @@
 import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { GraphQLError } from 'graphql';
-import {
-  CreateUserInput,
-  LoginUserInput,
-  UpdateUserInput,
-  User,
-} from 'src/graphql.schema';
+import { LoginUserInput, UpdateUserInput, User } from 'src/graphql.schema';
 import { PostsService } from 'src/posts/posts.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -60,7 +55,7 @@ export class UserService {
     //     extensions: { code: `USER${e.code}` },
     //   });
     // });
-    return this.convertUserWithBeerPosts(user);
+    return user;
   }
 
   /**
@@ -91,8 +86,7 @@ export class UserService {
         email: email,
       },
     });
-
-    return this.convertUserWithBeerPosts(user);
+    return user;
   }
 
   /**
@@ -110,7 +104,7 @@ export class UserService {
   }
 
   async login(loginInput: LoginUserInput): Promise<User> {
-    const loginUser = this.seachByEmail(loginInput.email);
+    const loginUser = await this.seachByEmail(loginInput.email);
 
     if (loginUser !== null) return loginUser;
     const createUser = await this.create(loginInput);
