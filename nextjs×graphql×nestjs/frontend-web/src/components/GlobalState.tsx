@@ -14,11 +14,7 @@ type Props = {
  * @returns
  */
 export const GlobalState = (props: Props) => {
-  const pathHistory = useRecoilValue(pathHistoryState);
   usePathHistory();
   useLogin();
-  useEffect(() => {
-    console.log(pathHistory);
-  }, [pathHistory]);
   return <>{props.children}</>;
 };
