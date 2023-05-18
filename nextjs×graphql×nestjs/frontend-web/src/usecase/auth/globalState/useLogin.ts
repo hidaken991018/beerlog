@@ -16,10 +16,12 @@ export const useLogin = () => {
   const { isAuthenticated, user } = useAuth0();
   const { login, loginResult } = useFetchLogin();
 
+  useEffect(() => {
   // Auth0ログイン済み,バック未ログイン
   if (isAuthenticated && !isLogin) {
     login(user);
   }
+  }, [isAuthenticated, isLogin]);
 
   useEffect(() => {
     setUserInfo(loginResult.data);
@@ -28,5 +30,5 @@ export const useLogin = () => {
     } else {
       setIsLogin(false);
     }
-  }, [loginResult.data, setIsLogin, setUserInfo]);
+  }, [loginResult.data]);
 };
