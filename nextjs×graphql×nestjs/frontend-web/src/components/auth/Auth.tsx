@@ -1,5 +1,6 @@
 import { loadingState } from '@/globalstates/promise/loading';
 import { useLogin } from '@/usecase/auth/globalState/useLogin';
+import { useToken } from '@/usecase/auth/useToken';
 import { useRecoilValue } from 'recoil';
 
 type Props = {
@@ -12,5 +13,6 @@ type Props = {
  * @returns
  */
 export const Auth = (props: Props) => {
+  useToken();
   return <>{props.children}</>;
 };
