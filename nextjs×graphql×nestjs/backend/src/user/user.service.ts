@@ -17,13 +17,11 @@ export class UserService {
    * @returns
    */
   async findOne(id: string): Promise<User | null> {
-    console.log('user-findOne');
     const user = await this.prisma.user.findUnique({
       where: {
         id,
       },
     });
-    console.log('user-findOne', user);
     return this.convertUserWithBeerPosts(user);
   }
   /**
@@ -117,7 +115,6 @@ export class UserService {
    * @returns
    */
   private async convertUserWithBeerPosts(user: any): Promise<User> {
-    console.log('convertUserWithBeerPosts', user);
     const beerPosts = await this.prisma.beerPost.findMany({
       where: { userId: user.id },
     });
