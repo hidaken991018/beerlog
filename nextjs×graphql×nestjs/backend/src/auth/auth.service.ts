@@ -21,7 +21,7 @@ export class AuthService {
    */
   async validateToken(jwt: string) {
     try {
-      return this.jwtService.verify(jwt, { publicKey: '' });
+      return this.jwtService.verify(jwt);
     } catch (error) {
       return null;
     }
