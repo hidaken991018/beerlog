@@ -22,8 +22,7 @@ export class PostsResolvers {
   constructor(private readonly postService: PostsService) {}
 
   @Query('beerPosts') // GraphQL スキーマ クエリ タイプ名を生成
-  async posts(): Promise<BeerPost[]> {
-    console.log('beerPosts-resolver');
+  async posts(@Context('req') req: any): Promise<BeerPost[]> {
     return this.postService.findAll();
   }
 
@@ -43,7 +42,6 @@ export class PostsResolvers {
     @Args('input') args: CreateBeerPostInput,
     @Context() context: any
   ): Promise<BeerPost> {
-    console.log(context);
     return this.postService.create(args);
   }
 
