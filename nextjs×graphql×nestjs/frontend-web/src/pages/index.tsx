@@ -1,12 +1,16 @@
 import { Stack } from '@mui/material';
 import { useQuery } from '@apollo/client';
-import { PostsDocument, PostsQuery } from '@/repositories/generated/graphql';
+import {
+  BeerPost,
+  PostsDocument,
+  PostsQuery,
+} from '@/repositories/generated/graphql';
 import React from 'react';
 import { PostCard } from '@/components/PostCard';
 
-const sample: any[] = [];
+const sample: BeerPost[] = [];
 for (let i = 0; i < 10; i++) {
-  sample.push('');
+  sample.push({} as BeerPost);
 }
 
 /**
@@ -18,7 +22,7 @@ export default function Home() {
 
   return (
     <Stack spacing={2} sx={{ alignItems: 'center' }}>
-      {data?.beerPosts
+      {sample
         ?.slice()
         .reverse()
         .map((item: any, index) => {

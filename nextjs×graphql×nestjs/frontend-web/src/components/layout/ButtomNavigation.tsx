@@ -42,7 +42,7 @@ export const ButtomNavigation = () => {
           }}
         >
           <BottomNavigationAction
-            label="home"
+            label="LOG"
             icon={<SportsBarIcon />}
             onClick={toHome}
           />
