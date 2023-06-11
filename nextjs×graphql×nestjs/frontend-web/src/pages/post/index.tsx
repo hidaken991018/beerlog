@@ -36,7 +36,12 @@ export default function BeerForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="p-4">
-      <input type="file" name="photo" className="mb-4" />
+      <input
+        type="file"
+        // name="photo"
+        className="mb-4"
+        {...register('photo', { required: '画像は必須です。' })}
+      />
 
       <TextField
         // name="beerName"
@@ -68,6 +73,7 @@ export default function BeerForm() {
       <TextField
         name="alcoholContent"
         label="アルコール度数"
+        type="number"
         fullWidth
         // inputRef={register}
         className="mb-4"
