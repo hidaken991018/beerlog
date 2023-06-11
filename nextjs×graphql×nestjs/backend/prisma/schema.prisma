@@ -3,8 +3,8 @@
 // DBはMySQLを使っていこうか：https://bigdata-tools.com/sql-db/#4RDBMS
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
