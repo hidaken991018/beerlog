@@ -37,7 +37,7 @@ export class PostsResolvers {
   }
 
   @Mutation('createBeerPost')
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   async create(
     @Args('input') args: CreateBeerPostInput,
     @Context() context: any
